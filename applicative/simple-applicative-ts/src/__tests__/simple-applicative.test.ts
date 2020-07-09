@@ -1,4 +1,6 @@
-import {SimpleApplicative, fmap, fromValue} from "../simple-applicative"
+import {SimpleApplicative, fromValue} from "../simple-applicative"
+import {fmap} from "../simple-applicative"
+import {pure, apply} from "../simple-applicative"
 
 type SimpleApplicativeNum = SimpleApplicative<number>;
 
@@ -76,4 +78,20 @@ test("conforms to fmap id = id", () => {
 test("conforms to fmap (g . h) = (fmap g) . (fmap h)", () => {
     const sa1 = fromValue(5);
     expect(fmapGOfH(sa1).value).toBe(fmapGOfFmapH(sa1).value);
+});
+
+test("Can be constructed with pure", () => {
+    expect(pure(5).value).toBe(fromValue(5).value);
+});
+
+test("Can be constructed containing a function with pure", () => {
+    const sa1 = pure( g );
+    expect(sa1.value).toBe(g);
+});
+
+test("Can be applied", () => {
+    const saApFun = pure( (x: number) => x + 3 );
+    const saRes = apply(saApFun, pure(1))
+
+    expect(saRes.value).toBe(4);
 });
