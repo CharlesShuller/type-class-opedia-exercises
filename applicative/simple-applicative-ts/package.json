@@ -1,0 +1,20 @@
+{
+  "name": "simple-applicative-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/jest/bin/jest.js --config jestconfig.json",
+    "build": "./node_modules/typescript/bin/tsc",
+    "doc": "./node_modules/typedoc/bin/typedoc ./src"
+  },
+  "author": "Charles Shuller",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "jest": "^25.5.4",
+    "ts-jest": "^25.5.0",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.9.6"
+  }
+}
