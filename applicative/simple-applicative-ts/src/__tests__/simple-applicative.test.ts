@@ -95,3 +95,25 @@ test("Can be applied", () => {
 
     expect(saRes.value).toBe(4);
 });
+
+
+test("Conforms to the applicative identity law", () => {
+    const v: SimpleApplicativeNum = pure(1);
+    const pureIdApV: SimpleApplicativeNum = apply(pure(id as (x: number) => number), v);
+
+    expect(pureIdApV).toEqual(v);
+});
+
+test("Conforms to the applicative homomorphism law", () => {
+    const x = 1;
+    const pureG = pure( g );
+    const pureX = pure ( x );
+    const pureGofX = pure( g(x) );
+
+    expect( apply(pureG, pureX) ).toEqual( pureGofX );
+});
+
+//Skipping the applicative interchange law, it needs stuff that typescript doesn't have, notably the ability
+//to do this:  pure ($ y) <*> u, where the $ is the function application operator.
+
+//Skipping the applicative composition law, it needs a composition operator, which typescript does not have
