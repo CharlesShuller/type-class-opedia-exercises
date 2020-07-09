@@ -1,0 +1,3 @@
+[submodule "applicative/simple-applicative-cs/FTest"]
+	path = applicative/simple-applicative-cs/FTest
+	url = connectionseducation@vs-ssh.visualstudio.com:v3/connectionseducation/EnterpriseSoftwarePortfolio/FTest
