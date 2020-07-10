@@ -73,5 +73,32 @@ namespace SimpleApplicative.Test {
                 "fmap (g . h) === (fmap g) . (fmap h)"
             );
         }
+
+        [TestMethod]
+        public void CanBeConstructedWithPure() =>
+            AreEqual(
+                ApplSimpleApplicative<int, Unit>.Inst.Pure(1),
+                SimpleApplicative<int>.New(1),
+                "Simple Applicative Pure and New both construct equivalent instances"
+            );
+
+        [TestMethod]
+        public void CanApplyApplicatives() {
+            SimpleApplicative<Func<int, int>> doubleFunAppl =
+               SimpleApplicative<Func<int, int>>.New( x => x*2 );
+
+            SimpleApplicative<int> oneAppl =
+                SimpleApplicative<int>.New(1);
+
+            SimpleApplicative<int> twoAppl =
+                SimpleApplicative<int>.New(2);
+
+            AreEqual(
+               doubleFunAppl.Apply(oneAppl),
+               twoAppl,
+               "Applying a double function to one results in 2"
+            );
+
+        }
     }
 }

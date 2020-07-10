@@ -14,6 +14,6 @@ namespace SimpleApplicativeCs.ClassInstances {
 
         [Pure]
         public SimpleApplicative<B> Map(SimpleApplicative<A> ma, Func<A, B> f) =>
-            ma.Map(f);
+            SimpleApplicative<B>.New( f(ma.Value) );
     }
 }
