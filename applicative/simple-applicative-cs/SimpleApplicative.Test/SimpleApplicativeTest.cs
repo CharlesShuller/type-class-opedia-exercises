@@ -9,11 +9,23 @@ using static FTest.FAssert;
 
 
 using SimpleApplicativeCs;
+using SimpleApplicativeCs.ClassInstances;
+
 
 namespace SimpleApplicative.Test {
+
     [TestClass]
     public class SimpleApplicateiveTest
     {
+
+        public Func<SimpleApplicative<T>, SimpleApplicative<V>> CurryFmap<T, V>(Func<T, V> func) =>
+            curry(
+                  (Func<T, V> f, SimpleApplicative<T> sa) =>
+                  sa.Map(f)
+            )
+            (func);
+
+
         [TestMethod]
         public void SimpleConstructionTest() =>
             IsNotNull(
@@ -42,6 +54,24 @@ namespace SimpleApplicative.Test {
                 "Map of the id function is the same as the id of the map"
             );
 
+        [TestMethod]
+        public void FMapGofHIsSameAsFMapGOfFMapH() {
+            SimpleApplicative<int> x = SimpleApplicative<int>.New(3);
+            Func<int, int> g = x => x + 3;
+            Func<int, int> h = x => x * 4;
+            Func<int, int> gOfH = compose<int, int, int>(g, h);
+            Func<SimpleApplicative<int>, SimpleApplicative<int>> fmapGofH = CurryFmap( gOfH );
+            Func<SimpleApplicative<int>, SimpleApplicative<int>> fmapG = CurryFmap( g );
+            Func<SimpleApplicative<int>, SimpleApplicative<int>> fmapH = CurryFmap( h );
+            Func<SimpleApplicative<int>, SimpleApplicative<int>> fmapGOfFmapH =
+                compose<SimpleApplicative<int>, SimpleApplicative<int>, SimpleApplicative<int>>(fmapG, fmapH);
+
+
+            AreEqual (
+                fmapGofH(x),
+                fmapGOfFmapH(x),
+                "fmap (g . h) === (fmap g) . (fmap h)"
+            );
         }
     }
 }
